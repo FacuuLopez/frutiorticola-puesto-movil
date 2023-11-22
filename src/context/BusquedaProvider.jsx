@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { UserContext } from './UserProvider';
-import { apiGetBusquedaSecundaria } from '../utils/conecciones/productos';
+import { apiGetBusqueda, apiGetBusquedaPrimaria, apiGetBusquedaSecundaria } from '../utils/conecciones/productos';
 
 export const BusquedaContext = createContext();
 
@@ -11,6 +11,7 @@ const BusquedaProvider = ({ children }) => {
     const [hayRegistros, setHayRegistros] = useState(false);
     const [noHayBusqueda, setNoHayBusqueda] = useState(true);
     const [nombre, setNombre] = useState('');
+    const [busquedaPrimaria, setBusquedaPrimaria] = useState('')
     const [busquedaSecundaria, setBusquedaSecundaria] = useState('');
     const [busquedaSecundariaIsLoading, setBusquedaSequndariaisLoading] = useState(false);
     const [busquedaSecundariaParametro, setBusquedaSequndariaParametro] = useState('');
@@ -23,6 +24,19 @@ const BusquedaProvider = ({ children }) => {
     const limpiarBusqueda = () => {
         setNombre('');
         setBusquedaSecundaria('');
+    }
+
+    const definirBusquedaPrimaria = async () => {
+        for (let i = 0; i < 4; i++) {
+            try {
+                const busqueda = await apiGetBusquedaPrimaria(apiRef.current);
+                setBusquedaPrimaria(busqueda);
+                return
+            } catch (error) {
+                i++
+            }
+        }
+        return
     }
 
     const definirBusquedaSecundaria = async () => {
@@ -40,9 +54,25 @@ const BusquedaProvider = ({ children }) => {
         return
     }
 
+    const definirBusqueda = async () => {
+        setBusquedaSequndariaisLoading(true)
+        for (let i = 0; i < 4; i++) {
+            try {
+                const {busquedaPrimaria, busquedaSecundaria} = await apiGetBusqueda(apiRef.current);
+                setBusquedaPrimaria(busquedaPrimaria)
+                setBusquedaSequndariaisLoading(false);
+                setBusquedaSequndariaParametro(busquedaSecundaria);
+                return
+            } catch (error) {
+                i++
+            }
+        }
+        return
+    }
+
 
     useEffect(() => {
-        definirBusquedaSecundaria();
+        definirBusqueda();
     }, []);
 
     useEffect(() => {
@@ -52,7 +82,7 @@ const BusquedaProvider = ({ children }) => {
     return (
         <BusquedaContext.Provider value={{
             registros, hayRegistros, noHayBusqueda,
-            nombre, setNombre, busquedaSecundaria, setBusquedaSecundaria,
+            nombre, setNombre, busquedaPrimaria, busquedaSecundaria, setBusquedaSecundaria,
             busquedaSecundariaIsLoading, busquedaSecundariaParametro, 
             setRegistros, limpiarBusqueda
         }} >

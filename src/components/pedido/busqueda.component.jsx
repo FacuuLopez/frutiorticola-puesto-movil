@@ -5,7 +5,7 @@ import { BusquedaContext } from "../../context/BusquedaProvider";
 
 const Busqueda = () => {
 
-    const{nombre, setNombre, busquedaSecundaria, setBusquedaSecundaria, busquedaSecundariaIsLoading, busquedaSecundariaParametro} = useContext(BusquedaContext)
+    const{nombre, setNombre, busquedaPrimaria, busquedaSecundaria, setBusquedaSecundaria, busquedaSecundariaIsLoading, busquedaSecundariaParametro} = useContext(BusquedaContext)
     const handleChangeNombre = (nombre) => setNombre(nombre);
     const handleChangeBusquedaSecundaria = (busquedaSecundaria) => setBusquedaSecundaria(busquedaSecundaria);
 
@@ -14,7 +14,7 @@ const Busqueda = () => {
             <TextInput
                 disableFullscreenUI={true}
                 style={busquedaStyles.input}
-                placeholder="Nombre"
+                placeholder={busquedaPrimaria}
                 onChangeText={handleChangeNombre}
                 value={nombre}
             />
