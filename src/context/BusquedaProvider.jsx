@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { UserContext } from './UserProvider';
-import { apiGetBusqueda, apiGetBusquedaPrimaria, apiGetBusquedaSecundaria } from '../utils/conecciones/productos';
+import { apiGetBusqueda } from '../utils/conecciones/productos';
 
 export const BusquedaContext = createContext();
 
@@ -24,34 +24,6 @@ const BusquedaProvider = ({ children }) => {
     const limpiarBusqueda = () => {
         setNombre('');
         setBusquedaSecundaria('');
-    }
-
-    const definirBusquedaPrimaria = async () => {
-        for (let i = 0; i < 4; i++) {
-            try {
-                const busqueda = await apiGetBusquedaPrimaria(apiRef.current);
-                setBusquedaPrimaria(busqueda);
-                return
-            } catch (error) {
-                i++
-            }
-        }
-        return
-    }
-
-    const definirBusquedaSecundaria = async () => {
-        setBusquedaSequndariaisLoading(true)
-        for (let i = 0; i < 4; i++) {
-            try {
-                const busqueda = await apiGetBusquedaSecundaria(apiRef.current);
-                setBusquedaSequndariaisLoading(false);
-                setBusquedaSequndariaParametro(busqueda);
-                return
-            } catch (error) {
-                i++
-            }
-        }
-        return
     }
 
     const definirBusqueda = async () => {

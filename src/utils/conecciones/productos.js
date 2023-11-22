@@ -2,30 +2,6 @@ import { rutaProductos } from '.';
 
 const _getParams = (object) => new URLSearchParams(object);
 
-const apiGetBusquedaPrimaria = async (api) => {
-  try {
-    const url = `${rutaProductos}/busqueda-primaria`;
-    // Mostrar los middlewares en la consola
-    const response = await api.get(url);
-    const resultados = response.data;
-    return resultados;
-  } catch (error) {
-    throw error
-  }
-}
-
-const apiGetBusquedaSecundaria = async (api) => {
-  try {
-    const url = `${rutaProductos}/busqueda-secundaria`;
-    // Mostrar los middlewares en la consola
-    const response = await api.get(url);
-    const resultados = response.data;
-    return resultados;
-  } catch (error) {
-    throw error
-  }
-}
-
 const apiGetBusqueda = async (api) => {
   try {
     const url = `${rutaProductos}/busqueda`;
@@ -62,4 +38,4 @@ export const apiGetKeys = async (api) => {
 
 }
 
-export { apiGetProductos, apiGetBusqueda, apiGetBusquedaPrimaria, apiGetBusquedaSecundaria };
+export { apiGetProductos, apiGetBusqueda };
