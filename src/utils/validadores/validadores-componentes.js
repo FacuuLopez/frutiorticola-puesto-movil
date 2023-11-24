@@ -1,6 +1,6 @@
 export const validarValorItemsPedido = (valor) => {
     if(valor === '') return valor
-    let parts = valor.split('.');
+    let parts = valor.split(/[.,]/);
     if (parts.length > 2) {
         valor = parts[0] + '.' + parts.slice(1).join('').replace(/\./g, '');
     }

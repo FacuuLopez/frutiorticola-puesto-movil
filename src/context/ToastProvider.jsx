@@ -14,7 +14,7 @@ const ToastProvider = ({ children }) => {
                 text2: mensaje,
             })
         } catch (error) {
-            console.error(error);
+            // console.error(error);
         }
 
     }

@@ -37,11 +37,6 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
         Number(precio) != 0 ? setItemPrecio(precio) : setItemPrecio('')
     }, [])
 
-    useEffect(() => {
-        Number(cantidad) != 0 ? setItemCantidad(cantidad) : setItemCantidad('')
-        Number(precio) != 0 ? setItemPrecio(precio) : setItemPrecio('')
-    }, [cantidad, precio])
-
     //actualiza el array para que el componente padre sepa si esta cargando el item
 
     useEffect(() => {
@@ -191,6 +186,7 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
     //dispara comienzo de actualizacion de la nueva cantidad o precio al cambiar estado a cargando
     const handleBlurCantidad = () => {
         setModificandoItems(false)
+        Number(cantidad) != 0 ? setItemCantidad(cantidad) : setItemCantidad('')
         if (isNaN(Number(itemCantidad))) {
             generarToastNumeroInvalido('cantidad');
             colocarFoco(cantidadRef);
@@ -201,6 +197,7 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
     }
     const handleBlurPrecio = () => {
         setModificandoItems(false)
+        Number(precio) != 0 ? setItemPrecio(precio) : setItemPrecio('')
         if (isNaN(Number(precio))) {
             generarToastNumeroInvalido('precio');
             colocarFoco(precioRef);
