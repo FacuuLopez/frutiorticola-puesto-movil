@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { s, vs } from "react-native-size-matters";
 
 const ListaStyles = (width, porcentajeMargen, numeroColumnas, unsafeViewAreaWidth) => {
-    const minimoColumnas = s(63) // width < 400 ? s(62) : s(70);
+    const minimoColumnas = s(62) // width < 400 ? s(62) : s(70);
     const cantColumnasMaximo = Math.floor(((width - unsafeViewAreaWidth) * (1 - porcentajeMargen * 0.02)) / minimoColumnas);
     const maxPorcentajeColumna = cantColumnasMaximo < numeroColumnas ? 100 / cantColumnasMaximo : 100 / numeroColumnas;
     const maxPorcentajeColumnaPedido = cantColumnasMaximo < (numeroColumnas + 2) ? 100 / cantColumnasMaximo : 100 / (numeroColumnas + 2);
@@ -57,10 +57,10 @@ const ListaStyles = (width, porcentajeMargen, numeroColumnas, unsafeViewAreaWidt
 
         },
         listaContenedorColumna: {
-            width: `${maxPorcentajeColumna - 0.05}%`, //evita pasar 100% X mal redondeo, evita falta espacio
+            width: `${maxPorcentajeColumna - 0.02}%`, //evita pasar 100% X mal redondeo, evita falta espacio
         },
         listaContenedorColumnaPedido: {
-            width: `${maxPorcentajeColumnaPedido - 0.05}%`,
+            width: `${maxPorcentajeColumnaPedido - 0.02}%`,
         },
         listaTitulo1: {
             ...listaTituloClaro,

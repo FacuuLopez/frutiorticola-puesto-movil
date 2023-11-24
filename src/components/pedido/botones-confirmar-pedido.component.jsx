@@ -10,7 +10,7 @@ import { ToastContenxt } from "../../context/ToastProvider";
 const BotonesConfirmarPedido = ({ Keyboard, compradorDefinido }) => {
     const { generarToast, generarAlerta } = useContext(ToastContenxt)
     const { apiRef } = useContext(UserContext)
-    const { buscarPedidos, modificandoPedido, mostrarPedido, id, itemsPedido, total, cargandoPedido } = useContext(PedidoContext)
+    const { buscarPedidos, modificandoPedido, mostrarPedido, setIndex, id, itemsPedido, total, cargandoPedido } = useContext(PedidoContext)
 
     const alertaConfirmarPedido = (mensaje, cantidadArticulos, total) => {
         const titulo = `${cantidadArticulos} Articulos x un total de ${total}`;
@@ -111,6 +111,7 @@ const BotonesConfirmarPedido = ({ Keyboard, compradorDefinido }) => {
         try {
             await apiIntentoPedidoCancelar(apiRef.current, id);
             await buscarPedidos();
+            setIndex(prev => prev > 0 ? prev - 1 : 0);
             generarToast({
                 tipo: 'success',
                 titulo: 'Pedido cancelado',

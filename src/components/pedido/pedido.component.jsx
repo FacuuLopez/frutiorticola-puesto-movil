@@ -15,7 +15,7 @@ const Pedido = ({ listaStyles }) => {
     const compradorRef = useRef(null);
     const { isKeyBoardOpen, isPortrait } = useContext(DimensionesContext);
     const { noHayBusqueda } = useContext(BusquedaContext)
-    const { keys, total, itemsPedido, valoresPedidoIsLoading, buscarPedidos, mostrarPedido, } = useContext(PedidoContext)
+    const { keys, totalSenias, totalVacios, total, itemsPedido, valoresPedidoIsLoading, buscarPedidos, mostrarPedido, } = useContext(PedidoContext)
     const { cargandoComprador, nuevoComprador, handleBlurComprador, handleChangeComprador, mostrarComprador } = useContext(CompradorContext);
     const { cargandoItems } = useContext(ItemContext)
 
@@ -99,13 +99,38 @@ const Pedido = ({ listaStyles }) => {
                             })}
                         </ScrollView>
                     }
-                    <View style={{ flexDirection: 'row', backgroundColor: '#27eeff', justifyContent: 'center' }}>
-                        <Text style={pedidoStyles.titulo}>
-                            {`Total $ `}{cargandoItems || valoresPedidoIsLoading ?
-                               'Cargando...'  : `${total}`}
+                    <View style={pedidoStyles.contenedorTotales}>
+                        <View style={pedidoStyles.contenedorTotal}>
+                            <Text style={pedidoStyles.valorTotal}>
+                                {!cargandoItems && Number(totalSenias).toFixed(2)}
+                            </Text>
+                            <Text style={pedidoStyles.labelTotal}>
+                                {!cargandoItems && 'Vacios'}
+                            </Text>
+                        </View>
+                        <Text style={pedidoStyles.valorTotal}>
+                            {!cargandoItems && '+'}
                         </Text>
+                        <View style={pedidoStyles.contenedorTotal}>
+                            <Text style={pedidoStyles.valorTotal}>
+                                {!cargandoItems ? Number(totalVacios).toFixed(2) : 'Cargando...'}
+                            </Text>
+                            <Text style={pedidoStyles.labelTotal}>
+                                {!cargandoItems && 'Neto'}
+                            </Text>
+                        </View>
+                        <Text style={pedidoStyles.valorTotal}>
+                            {!cargandoItems && '='}
+                        </Text>
+                        <View style={pedidoStyles.contenedorTotal}>
+                            <Text style={pedidoStyles.valorTotal}>
+                                {!cargandoItems && Number(total).toFixed(2)}
+                            </Text>
+                            <Text style={pedidoStyles.labelTotal}>
+                                {!cargandoItems && 'Total'}
+                            </Text>
+                        </View>
                     </View>
-
                 </View>
                 {!isKeyBoardOpen && <BotonesConfirmarPedido
                     compradorDefinido={compradorDefinido}

@@ -7,14 +7,28 @@ const pedidoStyles = StyleSheet.create({
         marginBottom: s(10),
         flexShrink: 1,
     },
-    titulo: {
-        backgroundColor: '#27eeff',
-        color: 'white',
+    contenedorTotales: {
+        flexDirection: 'row',
+        backgroundColor: '#7EF',
+        justifyContent: 'space-around',
+        borderWidth: s(1),
+        borderRadius: s(5)
+    },
+    contenedorTotal: {
+        alignItems: 'center',
+        paddingVertical: s(1),
+    },
+    valorTotal: {
+        color: 'black',
         textTransform: 'uppercase',
         fontWeight: 'bold',
-        fontSize: s(17),
-        paddingVertical: s(2),
-        textAlign: 'center',
+        fontSize: s(16),
+    },
+    labelTotal: {
+        fontWeight: 'bold',
+        color: 'red',
+        fontSize: s(12),
+        textTransform: 'uppercase',
     },
     contenedorComprador: {
         marginTop: s(10),
@@ -23,7 +37,6 @@ const pedidoStyles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: "center",
         backgroundColor: '#4d2a2a',
-        marginEnd: s(1),
     },
     compradorTexto: {
         fontSize: s(16),

@@ -13,7 +13,7 @@ const CompradorProvider = ({ children }) => {
   const { noHayBusqueda } = useContext(BusquedaContext);
 
   useEffect(() => {
-    setNuevoComprador(comprador ? comprador : '');
+    setNuevoComprador(comprador);
   }, [comprador]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const CompradorProvider = ({ children }) => {
   return (
     <CompradorContext.Provider value={{
       comprador, setComprador, nuevoComprador, setNuevoComprador,
-      cargandoComprador, setCargandoComprador, modificandoComprador, mostrarComprador,
+      cargandoComprador, setCargandoComprador, modificandoComprador, setModificandoComprador, mostrarComprador,
       handleChangeComprador, handleBlurComprador
     }}>
       {children}

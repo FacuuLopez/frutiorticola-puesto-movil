@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     contenedor: {
         backgroundColor: '#eee',
         padding: s(5),
-        borderWidth: 2,
-        borderRadius: 5,
+        borderWidth: s(2),
+        borderRadius: s(5),
     }
 })

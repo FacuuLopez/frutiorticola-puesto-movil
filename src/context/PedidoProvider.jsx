@@ -19,11 +19,13 @@ const PedidoProvider = ({ children }) => {
     const [numeroPedidos, setNumeroPedidos] = useState(0);
     const [hayPedido, setHayPedido] = useState(false);
     const [pedido, setPedido] = useState({});
-    const [index, setIndex] = useState('0');
+    const [index, setIndex] = useState(0);
     const [respuestaComprador, setRespuestaComprador] = useState({});
     const [itemsPedido, setItemsPedido] = useState([]);
     const [keys, setKeys] = useState([]);
     const [id, setId] = useState(0);
+    const [totalSenias, setTotalSenias] = useState(0);
+    const [totalVacios, setTotalVacios] = useState(0);
     const [total, setTotal] = useState(0);
     const [cargandoPedido, setCargandoPedido] = useState(false);
     const [modificandoPedido, setModificandoPedido] = useState(false);
@@ -32,7 +34,7 @@ const PedidoProvider = ({ children }) => {
     const [valoresPedidoIsLoading, setValoresPedidoIsLoading] = useState(false);
     const { apiRef } = useContext(UserContext);
     const { generarToast } = useContext(ToastContenxt)
-    const { cargandoComprador, nuevoComprador, setComprador, setCargandoComprador, modificandoComprador } = useContext(CompradorContext);
+    const { cargandoComprador, nuevoComprador, setComprador, setCargandoComprador, modificandoComprador, setModificandoComprador } = useContext(CompradorContext);
     const { modificandoItems, cargandoItems, setEstadosCargaItems, estadosCargaItems } = useContext(ItemContext)
     const { noHayBusqueda, limpiarBusqueda, setRegistros, nombre, busquedaSecundaria } = useContext(BusquedaContext);
 
@@ -71,7 +73,7 @@ const PedidoProvider = ({ children }) => {
     // comprador
 
     useEffect(() => {
-        respuestaComprador.index == index && setComprador(respuestaComprador.comprador);
+        respuestaComprador.indice && respuestaComprador.indice == index && setComprador(respuestaComprador.comprador);
     }, [respuestaComprador]); // sirve para comparar el index actual con el usado al momento de usar la funcion act. compr.
 
     useEffect(() => {
@@ -81,12 +83,20 @@ const PedidoProvider = ({ children }) => {
     const actualizarComprador = async () => {
         try {
             const comprador = await apiIntentoPedidoActualizarComprador(apiRef.current, nuevoComprador, id);
+            let indice = -1
             setArrayPedidos(prevArray => {
-                const newArray = [...prevArray];
-                newArray[index]['COMPRADOR'] = comprador
-                return newArray
+                const foundPedido = prevArray.find(pedido => pedido.id === id);
+                if (foundPedido) {
+                    indice = prevArray.indexOf(foundPedido);
+                    const newArray = [...prevArray];
+                    newArray[indice]['COMPRADOR'] = comprador;
+                    return newArray;
+                } else {
+                    // Manejar el caso en el que no se encuentre ningún pedido con el ID dado
+                    return prevArray;
+                }
             });
-            setRespuestaComprador({index, comprador})
+            setRespuestaComprador({ indice, comprador })
             setCargandoComprador(false);
         } catch (error) {
             setCargandoComprador(false)
@@ -100,26 +110,36 @@ const PedidoProvider = ({ children }) => {
 
     // Total
 
-    const _calcularTotalPedido = () => {
+    const _calcularTotalesPedido = () => {
+        let total = 0, totalSenias = 0, totalVacios = 0
         if (arrayPedidos[index]) {
             const items = arrayPedidos[index].ItemIntentoPedidos
-            const precioTotal = items ? items.reduce((total, item) => {
-                const { cantidad, precio } = item
+            const precioTotal = items ? items.reduce(({ total, totalSenias, totalVacios }, item) => {
+                const { cantidad, precio, Producto } = item
+                const { SENIA } = Producto
                 // Multiplica la cantidad por el precio y suma al total acumulado
-                return (total + cantidad * precio);
-            }, 0) :
-                0; // 0 es el valor inicial del total acumulado
-            return parseFloat(precioTotal).toFixed(2);
-        } else return 0
+                totalSenias += cantidad * SENIA;
+                totalVacios += cantidad * precio;
+                total = totalSenias + totalVacios
+                return ({ total, totalSenias, totalVacios });
+            }, { total, totalSenias, totalVacios }) :
+                { total, totalSenias, totalVacios }; // 0 es el valor inicial del total acumulado
+            total = precioTotal.total;
+            totalSenias = precioTotal.totalSenias;
+            totalVacios = precioTotal.totalVacios
+        }
+        setTotal(total);
+        setTotalSenias(totalSenias);
+        setTotalVacios(totalVacios);
     };
 
     useEffect(() => {
-        setTotal(_calcularTotalPedido());
+        _calcularTotalesPedido();
     }, [arrayPedidos, index])
 
 
     useEffect(() => {
-        setTotal(_calcularTotalPedido());
+        _calcularTotalesPedido();
     }, [])
 
     // keys
@@ -134,7 +154,6 @@ const PedidoProvider = ({ children }) => {
                 titulo: 'Error al conectar el servidor',
                 mensaje: 'Hay un error para establecer comunicacion con el servidor'
             });
-            setTimeout(() => generarToast(), 1000);
         }
     }
 
@@ -175,6 +194,11 @@ const PedidoProvider = ({ children }) => {
             setValoresPedidoIsLoading(false)
         } catch (error) {
             setValoresPedidoIsLoading(false)
+            generarToast({
+                tipo: 'error',
+                titulo: 'actualize los pedidos',
+                mensaje: 'Hubo un error actualizando los pedidos',
+            })
         }
     }
 
@@ -195,7 +219,7 @@ const PedidoProvider = ({ children }) => {
             setId(0);
         }
         else {
-            index !== 0 && setIndex('0');
+            index !== 0 && setIndex(0);
         }
     }
 
@@ -203,14 +227,18 @@ const PedidoProvider = ({ children }) => {
     const setCantidad = (cantidad, itemIndex) => {
         setArrayPedidos(prevArray => {
             const newArray = [...prevArray];
-            newArray[index].ItemIntentoPedidos[itemIndex].cantidad = cantidad
+            if (newArray[index].ItemIntentoPedidos[itemIndex]) {
+                newArray[index].ItemIntentoPedidos[itemIndex].cantidad = cantidad;
+            }
             return newArray
         });
     }
     const setPrecio = (precio, itemIndex) => {
         setArrayPedidos(prevArray => {
             const newArray = [...prevArray];
-            newArray[index].ItemIntentoPedidos[itemIndex].precio = precio
+            if (newArray[index].ItemIntentoPedidos[itemIndex]) {
+                newArray[index].ItemIntentoPedidos[itemIndex].precio = precio
+            }
             return newArray
         });
     }
@@ -229,22 +257,27 @@ const PedidoProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        setModificandoComprador(false);
+        setModificandoPedido(false);
         setCambiandoPedido(true);
-        setModificandoPedido(false)
-        setEstadosCargaItems([]);
     }, [index]);
 
     useEffect(() => {
-        cambiandoPedido && (setCambiandoPedido(false), _actualizarPedido(arrayPedidos));
+        cambiandoPedido && setEstadosCargaItems([]);
+    }, [cambiandoPedido])
+
+    useEffect(() => {
+        cambiandoPedido && (_actualizarPedido(arrayPedidos), setCambiandoPedido(false));
     }, [estadosCargaItems])
 
 
     return (
         <PedidoContext.Provider value={{
-            agregarItem, numeroPedidos, hayPedido, buscarPedidos, total, setCantidad, setPrecio,
+            agregarItem, numeroPedidos, hayPedido, buscarPedidos,
+            totalSenias, totalVacios, total,
+            setCantidad, setPrecio,
             keys, pedido, itemsPedido, index, setIndex, id, valoresPedidoIsLoading,
-            agregarItemPedido,
-            modificandoPedido, cargandoPedido, mostrarPedido
+            agregarItemPedido, modificandoPedido, cargandoPedido, mostrarPedido
         }}>
             {children}
         </PedidoContext.Provider>

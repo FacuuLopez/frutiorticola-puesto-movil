@@ -1,5 +1,5 @@
-import { TouchableOpacity, StyleSheet, Text } from 'react-native'
-import React, { useContext } from 'react'
+import { TouchableOpacity, StyleSheet, Text, Keyboard } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { s } from 'react-native-size-matters'
 import { UserContext } from '../../../context/UserProvider';
 import { PedidoContext } from '../../../context/PedidoProvider';
@@ -8,13 +8,36 @@ import { apiCrearIntentoPedido } from '../../../utils/conecciones/intento-pedido
 const BotonCrearPedido = () => {
 
     const { apiRef } = useContext(UserContext);
-    const { buscarPedidos, numeroPedidos, setIndex } = useContext(PedidoContext)
+    const { buscarPedidos, numeroPedidos, setIndex } = useContext(PedidoContext);
+    const [cambiarIndex, setCambiarIndex] = useState(false)
+    const [nuevoPedido, setNuevoPedido] = useState(false)
+
+    useEffect(() => { cambiarIndex && buscarPedidos() }, [cambiarIndex]);
+
+    useEffect(() => {
+        cambiarIndex && (setIndex(numeroPedidos - 1), setCambiarIndex(false))
+    }, [numeroPedidos])
+
+    useEffect(() => {
+        nuevoPedido && _agregarPedidoLista();
+    }, [nuevoPedido])
+
+    const _agregarPedidoLista = async () => {
+        try {
+            setTimeout(() => {
+                setNuevoPedido(false);
+                setCambiarIndex(true)
+            }, 300) // da tiempo a que lanze handleBlur
+        } catch (error) {
+
+        }
+    }
 
     const crearPedido = async () => {
         try {
+            Keyboard.dismiss()
             const response = await apiCrearIntentoPedido(apiRef.current);
-            await buscarPedidos();
-            setIndex(numeroPedidos)
+            setNuevoPedido(true)
         } catch (error) {
 
         }

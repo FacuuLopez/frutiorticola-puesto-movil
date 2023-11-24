@@ -1,6 +1,10 @@
 export const validarValorItemsPedido = (valor) => {
     if(valor === '') return valor
-    const valorParseado = valor.replace(/,/g, '.');
+    let parts = valor.split('.');
+    if (parts.length > 2) {
+        valor = parts[0] + '.' + parts.slice(1).join('').replace(/\./g, '');
+    }
+    const valorParseado = valor.trim().replace(/,/g, '.');
     if(!valorParseado.endsWith('.')) {
     if (isNaN(valorParseado)) {
         throw 'debe ingresar un número';

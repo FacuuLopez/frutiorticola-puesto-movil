@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet, Text } from 'react-native'
+import { TouchableOpacity, StyleSheet, Text, Keyboard } from 'react-native'
 import React, { useContext } from 'react'
 import { s } from 'react-native-size-matters'
 import { PedidoContext } from '../../../context/PedidoProvider'
@@ -31,9 +31,9 @@ const BotonListaPedidos = ({ indice }) => {
         }
 
     })
-
+    // da tiempo handleBlur
     return (
-        <TouchableOpacity style={styles.boton} onPress={() => { setIndex(indice) }}>
+        <TouchableOpacity style={styles.boton} onPress={() => { Keyboard.dismiss(); setTimeout(() => setIndex(indice), 300) }}>
             <Text style={styles.text}>
                 {indice + 1}
             </Text>

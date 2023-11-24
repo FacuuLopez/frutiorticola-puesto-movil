@@ -83,15 +83,15 @@ const styles = StyleSheet.create({
         paddingVertical: s(2),
         width: s(70),
         textAlign:'center',
-        borderRadius:5,
-        borderWidth:2
+        borderRadius: s(5),
+        borderWidth: s(2)
     },
     botonModificarUsuario: {
         backgroundColor:'#3498DB',
         paddingVertical: s(2),
         paddingHorizontal: s(5),
-        borderRadius:5,
-        borderWidth:2
+        borderRadius: s(5),
+        borderWidth: s(2)
     },
     botonModificarUsuarioTexto: {
         fontSize: s(15),
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
         backgroundColor:'#F43',
         paddingVertical: s(2),
         paddingHorizontal: s(5),
-        borderRadius:5,
-        borderWidth:2
+        borderRadius: s(5),
+        borderWidth: s(2)
     },
     botonCancelarUsuarioTexto: {
         fontSize: s(15),

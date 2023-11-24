@@ -26,6 +26,13 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
     const [itemCantidad, setItemCantidad] = useState('')
 
     useEffect(() => {
+        return () => {
+            cantidadCambioValor && actualizarCantidad();
+            precioCambioValor && actualizarPrecio();
+        }
+    }, [])
+
+    useEffect(() => {
         Number(cantidad) != 0 ? setItemCantidad(cantidad) : setItemCantidad('')
         Number(precio) != 0 ? setItemPrecio(precio) : setItemPrecio('')
     }, [])
@@ -56,9 +63,11 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
         try {
             const valorParseado = validarValorItemsPedido(nuevoPrecio);
             setItemPrecio(valorParseado);
+            setPrecio(valorParseado, itemIndex)
             const cambio = valorParseado != precio ? true : false
             setPrecioCambioValor(cambio);
             setModificandoItems(cambio);
+
         } catch (error) {
             generarToast({ titulo: 'Número invalido', tipo: 'error', mensaje: error });
         }
@@ -69,6 +78,7 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
         try {
             const valorParseado = validarValorItemsPedido(nuevaCantidad);
             setItemCantidad(valorParseado);
+            setCantidad(valorParseado, itemIndex);
             const cambio = valorParseado != cantidad ? true : false
             setCantidadCambioValor(cambio);
             setModificandoItems(cambio);
@@ -222,30 +232,30 @@ const ItemPedido = ({ item, itemIndex, listaStyles }) => {
                 );
             })}
             <View style={listaStyles.listaContenedorColumnaPedido}>
-                    <TextInput
-                        style={listaStyles.listaInput}
-                        placeholder="cant."
-                        ref={cantidadRef}
-                        keyboardType="decimal-pad"
-                        disableFullscreenUI={isPortrait}
-                        onChangeText={handleChangeCantidad}
-                        onBlur={handleBlurCantidad}
-                        value={itemCantidad}
-                        editable={!cantidadIsLoading}
-                    />
+                <TextInput
+                    style={listaStyles.listaInput}
+                    placeholder="cant."
+                    ref={cantidadRef}
+                    keyboardType="decimal-pad"
+                    disableFullscreenUI={isPortrait}
+                    onChangeText={handleChangeCantidad}
+                    onBlur={handleBlurCantidad}
+                    value={itemCantidad}
+                    editable={!cantidadIsLoading}
+                />
             </View>
             <View style={listaStyles.listaContenedorColumnaPedido}>
-                    <TextInput
-                        style={listaStyles.listaInput}
-                        disableFullscreenUI={isPortrait}
-                        ref={precioRef}
-                        placeholder="precio"
-                        keyboardType="decimal-pad"
-                        onChangeText={handleChangePrecio}
-                        onBlur={handleBlurPrecio}
-                        value={itemPrecio}
-                        editable={!precioIsLoading}
-                    />
+                <TextInput
+                    style={listaStyles.listaInput}
+                    disableFullscreenUI={isPortrait}
+                    ref={precioRef}
+                    placeholder="precio"
+                    keyboardType="decimal-pad"
+                    onChangeText={handleChangePrecio}
+                    onBlur={handleBlurPrecio}
+                    value={itemPrecio}
+                    editable={!precioIsLoading}
+                />
             </View>
         </View>
     );

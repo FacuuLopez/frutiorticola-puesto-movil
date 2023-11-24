@@ -24,8 +24,8 @@ const FormularioUsuario = ({ username, setUsername, password,
                     onValueChange={(itemValue, itemIndex) => setRoleName(itemValue)}
                     style={styles.roleName}
                 >
-                    <Picker.Item label="user" value="user" />
-                    <Picker.Item label="admin" value="admin" />
+                    <Picker.Item style={{ fontSize: s(15) }} label="user" value="user" />
+                    <Picker.Item style={{ fontSize: s(15) }} label="admin" value="admin" />
                 </Picker>
             </View>
             <View style={styles.contenedorUsernameRoleName}>
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
         fontSize: s(17),
-        borderRadius: 2,
-        borderWidth: 2,
+        borderRadius: s(2),
+        borderWidth: s(2),
         paddingHorizontal: s(5),
         paddingVertical: s(2),
         width: '100%',
@@ -85,6 +85,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: s(5),
         paddingVertical: s(2),
         width: '40%',
-
     },
 })
