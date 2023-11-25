@@ -1,4 +1,4 @@
-package com.tiendawwebfrontend;
+package com.portalFrutihorticola;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
