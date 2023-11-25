@@ -133,7 +133,7 @@ const BotonesConfirmarPedido = ({ Keyboard, compradorDefinido }) => {
             {mostrarPedido || modificandoPedido ?
                 <TouchableOpacity
                     style={BotonesConfirmarPedidoStyles.botonEnvio}
-                    onPress={modificandoPedido ? () => Keyboard.dismiss() : cargandoPedido ? () => { } : () => pedirCancelacionPedido()}
+                    onPress={modificandoPedido ? () => Keyboard.dismiss() : cargandoPedido ? () => { } : () => pedirConfirmacionPedido()}
                     disabled={cargandoPedido}
                     activeOpacity={0.6}>
                     <Text style={BotonesConfirmarPedidoStyles.botonEnvioTexto}>
