@@ -15,12 +15,15 @@ const Pedido = ({ listaStyles }) => {
     const compradorRef = useRef(null);
     const { isKeyBoardOpen, isPortrait } = useContext(DimensionesContext);
     const { noHayBusqueda } = useContext(BusquedaContext)
-    const { keys, totalSenias, totalVacios, total, itemsPedido, valoresPedidoIsLoading, buscarPedidos, mostrarPedido, } = useContext(PedidoContext)
+    const { keys, totalSenias, totalVacios, total, itemsPedido, valoresPedidoIsLoading, buscarPedidos, mostrarPedido, recargarPedido, setRecargarPedido} = useContext(PedidoContext)
     const { cargandoComprador, nuevoComprador, handleBlurComprador, handleChangeComprador, mostrarComprador } = useContext(CompradorContext);
     const { cargandoItems } = useContext(ItemContext)
 
     //determina si algun valor del pedido esta cargando
 
+    useEffect(()=>{
+        recargarPedido && (buscarPedidos(),setRecargarPedido(false));
+    },[recargarPedido])
 
     const compradorDefinido = () => {
         if (nuevoComprador) return true

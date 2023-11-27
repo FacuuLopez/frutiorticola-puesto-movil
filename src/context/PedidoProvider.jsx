@@ -31,10 +31,11 @@ const PedidoProvider = ({ children }) => {
     const [modificandoPedido, setModificandoPedido] = useState(false);
     const [mostrarPedido, setMostrarPedido] = useState(false)
     const [cambiandoPedido, setCambiandoPedido] = useState(false);
+    const [recargarPedido, setRecargarPedido] = useState(false);
     const [valoresPedidoIsLoading, setValoresPedidoIsLoading] = useState(false);
     const { apiRef } = useContext(UserContext);
     const { generarToast } = useContext(ToastContenxt)
-    const { cargandoComprador, nuevoComprador, setComprador, setCargandoComprador, modificandoComprador, setModificandoComprador } = useContext(CompradorContext);
+    const { cargandoComprador, nuevoComprador, setComprador, setCargandoComprador, modificandoComprador, setModificandoComprador, setNuevoComprador } = useContext(CompradorContext);
     const { modificandoItems, cargandoItems, setEstadosCargaItems, estadosCargaItems } = useContext(ItemContext)
     const { noHayBusqueda, limpiarBusqueda, setRegistros, nombre, busquedaSecundaria } = useContext(BusquedaContext);
 
@@ -207,7 +208,8 @@ const PedidoProvider = ({ children }) => {
             setPedido(arrayPedidos[index]);
             setNumeroPedidos(arrayPedidos.length)
             arrayPedidos.length > 0 ? setHayPedido(true) : setHayPedido(false)
-            setComprador(arrayPedidos[index].COMPRADOR);
+            setComprador(arrayPedidos[index].COMPRADOR ? arrayPedidos[index].COMPRADOR : '');
+            setNuevoComprador(arrayPedidos[index].COMPRADOR ? arrayPedidos[index].COMPRADOR : '')
             setItemsPedido(arrayPedidos[index].ItemIntentoPedidos);
             setId(arrayPedidos[index].id)
         } else if (index == 0) {
@@ -215,6 +217,7 @@ const PedidoProvider = ({ children }) => {
             setNumeroPedidos(0);
             setHayPedido(false);
             setComprador('');
+            setNuevoComprador('')
             setItemsPedido([]);
             setId(0);
         }
@@ -277,7 +280,8 @@ const PedidoProvider = ({ children }) => {
             totalSenias, totalVacios, total,
             setCantidad, setPrecio,
             keys, pedido, itemsPedido, index, setIndex, id, valoresPedidoIsLoading,
-            agregarItemPedido, modificandoPedido, cargandoPedido, mostrarPedido
+            agregarItemPedido, modificandoPedido, cargandoPedido, mostrarPedido,
+            setRecargarPedido, recargarPedido
         }}>
             {children}
         </PedidoContext.Provider>

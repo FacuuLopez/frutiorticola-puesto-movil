@@ -13,7 +13,7 @@ const CompradorProvider = ({ children }) => {
   const { noHayBusqueda } = useContext(BusquedaContext);
 
   useEffect(() => {
-    setNuevoComprador(comprador);
+    setNuevoComprador(comprador ? comprador : '');
   }, [comprador]);
 
   useEffect(() => {

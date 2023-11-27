@@ -5,7 +5,7 @@ import { PedidoContext } from '../../../context/PedidoProvider'
 
 const BotonListaPedidos = ({ indice }) => {
 
-    const { index, setIndex } = useContext(PedidoContext);
+    const { index, setIndex, setRecargarPedido } = useContext(PedidoContext);
     const activo = indice == index ? true : false
 
     const styles = StyleSheet.create({
@@ -33,7 +33,7 @@ const BotonListaPedidos = ({ indice }) => {
     })
     // da tiempo handleBlur
     return (
-        <TouchableOpacity style={styles.boton} onPress={() => { Keyboard.dismiss(); setTimeout(() => setIndex(indice), 300) }}>
+        <TouchableOpacity style={styles.boton} onPress={() => { Keyboard.dismiss(); index != indice && setTimeout(() => {setIndex(indice); setTimeout(()=>{setRecargarPedido(true)},200)}, 200) }}>
             <Text style={styles.text}>
                 {indice + 1}
             </Text>

@@ -10,7 +10,6 @@ const BotonCrearPedido = () => {
     const { apiRef } = useContext(UserContext);
     const { buscarPedidos, numeroPedidos, setIndex } = useContext(PedidoContext);
     const [cambiarIndex, setCambiarIndex] = useState(false)
-    const [nuevoPedido, setNuevoPedido] = useState(false)
 
     useEffect(() => { cambiarIndex && buscarPedidos() }, [cambiarIndex]);
 
@@ -18,14 +17,10 @@ const BotonCrearPedido = () => {
         cambiarIndex && (setIndex(numeroPedidos - 1), setCambiarIndex(false))
     }, [numeroPedidos])
 
-    useEffect(() => {
-        nuevoPedido && _agregarPedidoLista();
-    }, [nuevoPedido])
 
     const _agregarPedidoLista = async () => {
         try {
             setTimeout(() => {
-                setNuevoPedido(false);
                 setCambiarIndex(true)
             }, 300) // da tiempo a que lanze handleBlur
         } catch (error) {
@@ -37,7 +32,7 @@ const BotonCrearPedido = () => {
         try {
             Keyboard.dismiss()
             const response = await apiCrearIntentoPedido(apiRef.current);
-            setNuevoPedido(true)
+            _agregarPedidoLista()
         } catch (error) {
 
         }
