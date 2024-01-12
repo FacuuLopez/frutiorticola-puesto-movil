@@ -5,9 +5,8 @@ import { UserContext } from '../../context/UserProvider'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-native'
 
-//setBaseURL('http://192.168.0.8:8080')
 const DireccionServidor = () => {
-    const {baseURL, setBaseURL} = useContext(UserContext)
+    const { baseURL, setBaseURL } = useContext(UserContext)
     const [ruta, setRuta] = useState('');
     const navigate = useNavigate()
 
@@ -15,52 +14,52 @@ const DireccionServidor = () => {
         setRuta(nuevaRuta);
     }
 
-    const confirmarRuta = () => {        
-    ruta === baseURL ?
-    navigate('/login') : 
-    setBaseURL(ruta);
+    const confirmarRuta = () => {
+        ruta === baseURL ?
+            navigate('/login') :
+            setBaseURL(ruta);
     }
 
-    useEffect(()=>{
-       setRuta(baseURL)
-    },[baseURL]);
+    useEffect(() => {
+        setRuta(baseURL)
+    }, [baseURL]);
 
 
 
-        return (
-            <View style={styles.contenedor}>
-                <Text style={styles.titulo} >Ruta Servidor</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Ruta"
-                    disableFullscreenUI={true}
-                    onChangeText={handleChangeRuta}
-                    value={ruta}
-                />
-                <TouchableOpacity style={styles.boton} onPress={confirmarRuta} activeOpacity={0.6}>
-                    <Text style={styles.botonTexto}>Confirmar</Text>
-                </TouchableOpacity>
-            </View>
-        )
+    return (
+        <View style={styles.contenedor}>
+            <Text style={styles.titulo} >Ruta Servidor</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Ruta"
+                disableFullscreenUI={true}
+                onChangeText={handleChangeRuta}
+                value={ruta}
+            />
+            <TouchableOpacity style={styles.boton} onPress={confirmarRuta} activeOpacity={0.6}>
+                <Text style={styles.botonTexto}>Confirmar</Text>
+            </TouchableOpacity>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
     contenedor: {
         flex: 1,
         justifyContent: 'center',
-        alignItems:'center',
-        paddingHorizontal:'13%',
+        alignItems: 'center',
+        paddingHorizontal: '13%',
         paddingVertical: s(10),
     },
     titulo: {
         fontSize: s(24),
         marginBottom: s(15),
-        textTransform:'uppercase',
+        textTransform: 'uppercase',
     },
     input: {
-        fontSize:s(18),
-        paddingVertical:s(8),
-        paddingHorizontal:s(10),
+        fontSize: s(18),
+        paddingVertical: s(8),
+        paddingHorizontal: s(10),
         backgroundColor: 'white',
         width: '100%',
         marginBottom: s(30),
@@ -70,9 +69,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#2196F3',
         paddingVertical: s(12),
         borderRadius: 5,
-        width:'100%',
+        width: '100%',
     },
-    botonTexto:{
+    botonTexto: {
         fontSize: s(25),
         color: 'white',
     }

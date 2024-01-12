@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
   const recuperarUrl = async () => {
     try {
       const url = await getUrlServidor();
-      setBaseURL(url);
+      url && setBaseURL(url);
     } catch (error) {
 
     }
@@ -39,7 +39,7 @@ export const UserProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    apiRef.current = crearApi(`http://${baseURL}`);
+    apiRef.current = crearApi(baseURL);
     apiRef.current.interceptors.response.handlers = [];
     apiRef.current.interceptors.request.handlers.length = [];
     setTokenUsuarioRes();

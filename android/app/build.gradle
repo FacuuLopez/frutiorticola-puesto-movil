@@ -82,6 +82,12 @@ android {
         versionName "1.0"
     }
     signingConfigs {
+        release {
+            storeFile file('portalFrutihorticola.keystore')
+            storePassword 'your_key_store_password'
+            keyAlias 'your_key_alias'
+            keyPassword 'your_key_file_alias_password'
+            }       
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
