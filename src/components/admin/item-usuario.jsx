@@ -39,7 +39,8 @@ const ItemUsuario = ({ username, roleName, apiRef, modificarUsuario, setCargando
             generarToast({
                 tipo: 'error',
                 titulo: 'error al eliminar usuario',
-                mensaje: 'no se pudo eliminar el usuario',
+                mensaje: error.response.data.result == 'El usuario tiene ventas en curso no se puede eliminar' ?
+                'El usuario tiene ventas en curso' : 'no se pudo eliminar al usuario'
             })
         }
     }

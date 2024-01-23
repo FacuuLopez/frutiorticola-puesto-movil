@@ -16,7 +16,7 @@ const ListaStyles = (width, porcentajeMargen, numeroColumnas, unsafeViewAreaWidt
     const lista = {
         textTransform: 'uppercase',
         fontWeight: 'bold',
-        fontSize: s(15),
+        fontSize: s(14),
         textAlignVertical: 'center',
         paddingVertical: vs(2),
         textAlign: 'center',

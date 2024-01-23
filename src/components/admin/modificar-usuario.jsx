@@ -48,6 +48,19 @@ const ModificarUsuario = ({ username, cancelarModificarUsuario, setCargandoUsuai
         generarAlerta(titulo, mensaje, botones)
     }
 
+    const alertaErrorDatos = () => {
+        const titulo = 'Parametros Incorrectos';
+        const mensaje = `Error al intentar modificar el usuario?`;
+        const botones = [
+            {
+                text: 'Ok',
+                onPress: () => { },
+                style: 'yes',
+            }
+        ]
+        generarAlerta(titulo, mensaje, botones)
+    }
+
     const modificarUsuario = async () => {
         try {
             if (username && password && password === repeatPassword) {
@@ -59,6 +72,8 @@ const ModificarUsuario = ({ username, cancelarModificarUsuario, setCargandoUsuai
                 });
                 setCargandoUsuaios(true)
                 cancelarModificarUsuario();
+            } else {
+                alertaErrorDatos();
             }
             return
         } catch (error) {

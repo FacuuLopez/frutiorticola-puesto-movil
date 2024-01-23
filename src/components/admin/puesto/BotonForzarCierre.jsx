@@ -21,12 +21,30 @@ const BotonForzarCierre = ({ actualizarEstado }) => {
     const botones = [
       {
         text: 'Si',
-        onPress: () => forzarCierre(),
+        onPress: () => alertaConfirmarCierre(),
         style: 'yes'
       },
       {
         text: 'No',
         onPress: () => { },
+        style: 'no',
+      }
+    ]
+    generarAlerta(titulo, mensaje, botones)
+  }
+
+  const alertaConfirmarCierre = () => {
+    const titulo = '¿Esta seguro?';
+    const mensaje = 'Forzar el cierre borrara definitvamente las ventas en curso';
+    const botones = [
+      {
+        text: 'Borrar Ventas',
+        onPress: () => forzarCierre(),
+        style: 'yes',
+      },
+      {
+        text: 'Cancelar',
+        onPress: () => forzarCierre(),
         style: 'no',
       }
     ]
